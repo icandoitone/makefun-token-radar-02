@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="pulse" aria-hidden="true"></div>
+    <div>
+      <h1>Token Radar</h1>
+      <p class="tag">Every pre-token protocol worth farming, ranked by what its token would be worth if it launched today — priced off the snapshot's own token families.</p>
+    </div>
+  </div>
+  <dl class="stats" id="stats"></dl>
+</header>
+
+<nav class="tabs" aria-label="Views">
+  <button id="tab-board" class="tab active" type="button">Ranked board</button>
+  <button id="tab-live" class="tab" type="button">Already trading</button>
+  <button id="tab-model" class="tab" type="button">Model &amp; backtest</button>
+  <button id="tab-comps" class="tab" type="button">Comparables</button>
+</nav>
+
+<section class="toolbar" id="toolbar" aria-label="Filter and sort">
+  <label class="field">Search
+    <input id="q" type="search" placeholder="Protocol name or slug…" autocomplete="off">
+  </label>
+  <label class="field">Category
+    <select id="cat"><option value="">All categories</option></select>
+  </label>
+  <label class="field">Chain
+    <select id="chain"><option value="">All chains</option></select>
+  </label>
+  <label class="field">Scope
+    <select id="scope">
+      <option value="all">All rows</option>
+      <option value="watchlist">Watchlist only</option>
+      <option value="early">Early finds only</option>
+    </select>
+  </label>
+  <label class="field">Sort by
+    <select id="sort">
+      <option value="value">Implied value ↓</option>
+      <option value="tvl">TVL ↓</option>
+      <option value="growth">7-day change ↓</option>
+      <option value="age">Age ↓</option>
+      <option value="name">Name A–Z</option>
+    </select>
+  </label>
+  <p class="count" id="count" aria-live="polite"></p>
+</section>
+
+<main>
+  <noscript><p class="note">This radar needs JavaScript: the board is rendered from the snapshot data bundled beside the page.</p></noscript>
+  <p class="legend"><span class="badge wl">WATCHLIST</span> on the house's $50M floor &nbsp;·&nbsp; <span class="badge early">EARLY</span> a pre-token protocol below the floor, found by the radar &nbsp;·&nbsp; implied value is the fitted token value, not a prediction a token will launch</p>
+  <section id="view-board" class="view">
+    <table id="board">
+      <thead>
+        <tr>
+          <th data-sort="rank">#</th>
+          <th data-sort="name">Protocol</th>
+          <th data-sort="category">Category</th>
+          <th data-sort="chains">Chains</th>
+          <th data-sort="tvl" class="num">TVL</th>
+          <th data-sort="change" class="num">7d</th>
+          <th data-sort="age" class="num">Age</th>
+          <th data-sort="value" class="num">Implied value</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p class="hint">Click any row for its detail view and farm plan. Share a view with <code>?view=detail&amp;slug=…</code> or filter with <code>?filter=…</code>.</p>
+  </section>
+
+  <section id="view-detail" class="view" hidden>
+    <p><button id="back" class="linklike" type="button">← Back to the board</button></p>
+    <article id="detail"></article>
+  </section>
+
+  <section id="view-live" class="view" hidden>
+    <p class="note">These protocols already have a token that trades, so the board does not rank them — the market has already priced them. They are here so you can tell a launch that already happened from one still to come, and so the comparables below can be checked against real market caps.</p>
+    <table id="live">
+      <thead><tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">Multiple</th><th class="num">7d</th></tr></thead>
+      <tbody id="live-rows"></tbody>
+    </table>
+  </section>
+
+  <section id="view-model" class="view" hidden>
+    <article class="model-card" id="model-card"></article>
+  </section>
+
+  <section id="view-comps" class="view" hidden>
+    <article class="model-card" id="comps-card"></article>
+  </section>
+</main>
+
+<footer>
+  <p>Implied value is this entry's own claim from the sealed snapshot's figures — the fitted size curve from the snapshot's token protocols, the protocol's TVL, its seven-day change, age since first tracked, and chain breadth. It is not a prediction that a token will be issued, or when. A protocol "records no token" in the snapshot; that is the record, not proof it has none. Snapshot date: <span id="asof"></span>.</p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
